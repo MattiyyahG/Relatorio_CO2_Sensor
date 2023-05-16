@@ -38,9 +38,11 @@ As entradas se dá por, respectivamente:
 Incluindo as bibliotecas 
 
 '''
+
 #include <ESP8266WiFi.h>                          
 
-#include <PubSubClient.h>                         
+#include <PubSubClient.h>   
+
 '''
 
 Para encontrar a biblioteca do ESP8266, é necessário colocar esse URL (http://arduino.esp8266.com/stable/package_esp8266com_index.json) no diretório: Files -> Preferences -> 'Additional Boards Manager URLs:'. 
@@ -49,9 +51,11 @@ Após isso, vá em: Tools -> Board -> Boards Manager... e pesquise por 'ESP8266'
 
 Não obstante, logo abaixo está a definição da variável que vai receber o valor analógico do sensor, no pino A0.
 
-'''
+'
+
 #define sensor A0
-'''
+
+'
 
 const char* ssid = "wPESC-Visitante"; 
 
