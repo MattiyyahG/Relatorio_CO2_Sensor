@@ -4,7 +4,7 @@
 
 Neste relatório, será estabelecido a conexão, pinagem, e citação de materiais necessários para realizar a conexão MQTT (Message Queue Telemetry Transport) entre um ESP8266. Não obstante, o envio dos dados de um sensor de gás carbonico (CO2) - MQ135, via broker também será realizada.
 
-Iniciamos da seguinte forma, com os materiais necessários para implementação do mesmo, tal qual são:
+Iniciamos da seguinte forma, com os materiais necessários para implementação do mesmo, tal qual:
 
 * ESP8266.
 * Jumper.
