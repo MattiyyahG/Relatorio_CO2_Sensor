@@ -35,7 +35,7 @@ As entradas se dá por, respectivamente:
 
 ## 3. Código.
 
-Incluindo as bibliotecas 
+Incluindo as bibliotecas:
 
 ```
 #include <ESP8266WiFi.h>                          
@@ -173,5 +173,77 @@ void reconnect() {
 
   }
 
+}
+```
+
+Função setup, onde chama a função setup_wifi e seta o valor da taxa de leitura serial em 115200 Baund Rate, e define broker na porta 1883 e chama a função callback de mensagem.
+
+```
+void setup() {
+
+  Serial.begin(115200);
+
+  setup_wifi();
+
+  client.setServer(mqtt_server, 1883);
+
+  client.setCallback(callback);
+
+}
+```
+
+Função loop (Laço de repetição, onde o valor de sensor vai ser medido e enviado para o broker repetidamente). 
+
+A primeira condição na função é, se o cliente não estiver conectado, reconecte.
+
+Definindo a variável value_gas para que receba o valor análogo inteiro da variável sensor no pino A0, e caso esse valor seja maior do que a tolerancia definida, printe no monitor serial e no broker um aviso que a taxa está extremamente elevada e espere 1 segundo, e caso não seja, apenas printe o valor da taxa de gás medida no tópico do broker definido.
+
+```
+void loop() {
+
+  if (!client.connected()) {
+
+  reconnect();
+
+  }
+
+  client.loop();
+
+  unsigned long now = millis();
+
+  int value_gas = analogRead(sensor); 
+
+  if(value_gas > tolerancia){ 
+    
+  Serial.print("TAXA DE CO2 MUITO ALTA, FOGO");
+    
+  Serial.println();
+
+  client.publish("labnet/CO2", "TAXA DE CO2 MUITO ALTA!");
+
+  Serial.println();
+   
+  delay(1000); 
+
+  }
+  
+  else {
+    
+  if (now - lastMsg > 2000) {
+
+  lastMsg = now;
+
+  snprintf (msg, MSG_BUFFER_SIZE, "Taxa de Gás: %ld", value_gas);
+
+  Serial.println(msg);
+
+  client.publish("labnet/CO2", msg);
+
+  delay(1000);
+
+  }
+ 
+  }
+ 
 }
 ```
