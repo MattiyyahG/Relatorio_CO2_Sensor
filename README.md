@@ -29,7 +29,7 @@ As entradas se dá por, respectivamente:
 * A0 - Saída do valor analógico registrado/medido pelo sensor.
 * D0 - Saída digital, o valor limite de tolerância pode ser definido usando o potenciômetro.
 * GND - Terra/GND.
-* VCC - Entrada de energia (3.3v). [Cuidado, se colocar em 5v pode ocorrer acidentes!].
+* VCC - Entrada de energia (3.3v). [Cuidado, se colocar em 5v a probabilidade de ocorrer acidentes é alta!].
 
 ## 3. Código.
 
