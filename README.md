@@ -16,13 +16,13 @@ Iniciamos da seguinte forma, com os materiais necessários para implementação 
 
 Abaixo, está o modelo esquemático da pinagem para implementação do ESP8266:
 
-![GitHub/Assets/ESP8266_PinOut.png](PinOut)
+![PinOut](Code/Assets/ESP8266_PinOut.png)
 
 #### Imagem obtida no site (https://how2electronics.com/gas-level-monitor-esp8266-gas-sensor/)
 
 Na imagem, foi utilizado o sensor MQ-7, mas o mesmo esquemático se aplica ao MQ-135, pois a pinagem do MQ-135 se dá por:
 
-![https://www.circuits-diy.com/wp-content/uploads/2021/10/MQ135-pinout-air-quality-sensor.jpg](MQ-135 Pinagem)
+![MQ-135 Pinagem](https://www.circuits-diy.com/wp-content/uploads/2021/10/MQ135-pinout-air-quality-sensor.jpg)
 
 #### Imagem obtida no site (https://how2electronics.com/gas-level-monitor-esp8266-gas-sensor/)
 
