@@ -222,6 +222,8 @@ A primeira condição na função é, se o cliente não estiver conectado, recon
 Definindo a variável value_gas para que receba o valor análogo inteiro da variável sensor no pino A0, e caso esse valor seja maior do que a tolerancia definida, printe no monitor serial e no broker um aviso que a taxa está extremamente elevada e espere 1 segundo, e caso não seja, apenas printe o valor da taxa de gás medida no tópico do broker definido.
 Não obstante, foi definida um formato padrão para retornar o valor do tempo, tal formato esse que é de Horas:Minutos:Segundos, existe uma função pre-definida pelo timeClient, chamada "timeClient.getFormattedTime()", essa função retorna os valores do horário no formato dito anteriormente. 
 
+Complementando com os valores da data atual, pra isso, foi necessário utilizar novamente o servidor de salvamento de dados do dia atual, e bastou apenas chama-las para a função, tal qual, inicialmente, foi definido o tempo da época (função essa pré-definida na database) "timeClient.getEpochTime()" essa função obtém o valor da data da época atual, após, foi criada outra estruturada para receber esse valor, nesse momento foi definido como um inteiro o valor do dia, do mês atual e do ano atual, não obstante, todas essas variáveis foram chamadas numa final, "atualData" que recebe todos os valores coletados e transforma em apenas 1 string.
+
 ```
 void loop() {
 
@@ -239,6 +241,20 @@ void loop() {
 
   int value_gas = analogRead(sensor); 
 
+//Definindo o tempo e a data
+
+  time_t epochTime = timeClient.getEpochTime();
+
+  struct tm *ptm = gmtime ((time_t *)&epochTime); 
+
+  int diaMes = ptm-> tm_mday;
+
+  int atualMes = ptm-> tm_mon + 1;
+
+  int atualAno = ptm-> tm_year + 1900;
+
+  String atualData = String(atualAno) + "-" + String(atualMes) + "-" + String(diaMes);
+
   if(value_gas > tolerancia){ 
     
   Serial.print("TAXA DE CO2 MUITO ALTA, FOGO");
@@ -249,7 +265,7 @@ void loop() {
 
   String formattedTime = timeClient.getFormattedTime();
 
-  snprintf (msg, MSG_BUFFER_SIZE, "TAXA DE CO2 MUITO ALTA! - %s", formattedTime);
+  snprintf (msg, MSG_BUFFER_SIZE, "TAXA DE CO2 MUITO ALTA! - [Horário: %s] - [Data: %s]", formattedTime, atualData);
   
   client.publish("lens/CO2", msg);
    
@@ -267,7 +283,7 @@ void loop() {
 
   Serial.println();
 
-  snprintf (msg, MSG_BUFFER_SIZE, "Taxa de Gás: %ld ppm - [Horário: %s]", value_gas, formattedTime);
+  snprintf (msg, MSG_BUFFER_SIZE, "Taxa de Gás: %ld ppm - [Horário: %s]- [Data: %s]", value_gas, formattedTime, atualData);
 
   Serial.println(msg);
 
