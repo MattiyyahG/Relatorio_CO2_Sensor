@@ -36,7 +36,7 @@ unsigned long lastMsg = 0;
 
 char msg[MSG_BUFFER_SIZE];
 
-int tolerancia = 1000;
+int tolerancia = 10;
 
 void setup_wifi() {
 
@@ -155,19 +155,17 @@ void loop() {
 
 //  int valor_dist = analogRead(sensor); 
 
-  if(distance > tolerancia){         
+  if(distance < tolerancia){         
     
   Serial.print("Muito Proximo");
     
   Serial.println();
 
-  client.publish("lens/CO2", "MUITO PROXIMO");
-
   String formattedTime = timeClient.getFormattedTime();
   
-  Serial.println(formattedTime);
-  
-  client.publish("lens/CO2", formattedTime.c_str());
+  snprintf (msg, MSG_BUFFER_SIZE, "MUITO PROXIMO - %s", formattedTime);
+
+  client.publish("lens/CO2", msg);
 
   delay(2000); 
   
@@ -191,9 +189,7 @@ void loop() {
 
   client.publish("lens/CO2", msg);
   
-//  Serial.println(formattedTime);
-  
-//  client.publish("lens/CO2", formattedTime.c_str());
+  Serial.println(formattedTime);
   
   delay(2000);
 

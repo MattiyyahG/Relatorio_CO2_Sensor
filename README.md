@@ -245,15 +245,13 @@ void loop() {
     
   Serial.println();
 
-  client.publish("labnet/CO2", "TAXA DE CO2 MUITO ALTA!");
-
   Serial.println();
 
   String formattedTime = timeClient.getFormattedTime();
+
+  snprintf (msg, MSG_BUFFER_SIZE, "TAXA DE CO2 MUITO ALTA! - %s", formattedTime);
   
-  Serial.println(formattedTime);
-  
-  client.publish("lens/CO2", formattedTime.c_str());
+  client.publish("lens/CO2", msg);
    
   delay(1000); 
 
@@ -265,21 +263,21 @@ void loop() {
 
   lastMsg = now;
 
-  snprintf (msg, MSG_BUFFER_SIZE, "Taxa de Gás: %ld", value_gas);
+  String formattedTime = timeClient.getFormattedTime();
+
+  Serial.println();
+
+  snprintf (msg, MSG_BUFFER_SIZE, "Taxa de Gás: %ld ppm - [Horário: %s]", value_gas, formattedTime);
 
   Serial.println(msg);
 
-  client.publish("labnet/CO2", msg);
+  Serial.println();
 
-  String formattedTime = timeClient.getFormattedTime();
-  
-  Serial.println(formattedTime);
-  
-  client.publish("lens/CO2", formattedTime.c_str());
+  client.publish("labnet/CO2", msg);
 
   delay(1000);
 
-  }
+    }
  
   }
  
