@@ -22,9 +22,9 @@ const char* mqtt_server = "test.mosquitto.org";
 
 WiFiUDP ntpUDP;
 
-NTPClient timeClient(ntpUDP, "south-america.pool.ntp.org");
-
 WiFiClient espClient;
+
+NTPClient timeClient(ntpUDP, "south-america.pool.ntp.org");
 
 PubSubClient client(espClient);
 
@@ -32,7 +32,7 @@ UltraSonicDistanceSensor distanceSensor(triggerPin, echoPin);
 
 unsigned long lastMsg = 0;
 
-#define MSG_BUFFER_SIZE  (50)
+#define MSG_BUFFER_SIZE (50)
 
 char msg[MSG_BUFFER_SIZE];
 
@@ -58,7 +58,7 @@ void setup_wifi() {
 
   Serial.print(".");
 
-  }
+    }
 
   randomSeed(micros());
 
@@ -71,7 +71,6 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 
 }
-
 
 void callback(char* topic, byte* payload, unsigned int length) {
 
@@ -121,7 +120,6 @@ void reconnect() {
   }
 
 }
-
 
 void setup() {
 
