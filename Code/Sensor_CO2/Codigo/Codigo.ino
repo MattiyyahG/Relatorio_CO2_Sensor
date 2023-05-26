@@ -32,7 +32,7 @@ UltraSonicDistanceSensor distanceSensor(triggerPin, echoPin);
 
 unsigned long lastMsg = 0;
 
-#define MSG_BUFFER_SIZE (50)
+#define MSG_BUFFER_SIZE (100)
 
 char msg[MSG_BUFFER_SIZE];
 
@@ -155,6 +155,20 @@ void loop() {
 
 //  int valor_dist = analogRead(sensor); 
 
+//Definindo o tempo e a data
+
+  time_t epochTime = timeClient.getEpochTime();
+
+  struct tm *ptm = gmtime ((time_t *)&epochTime); 
+
+  int diaMes = ptm-> tm_mday;
+
+  int atualMes = ptm-> tm_mon + 1;
+
+  int atualAno = ptm-> tm_year + 1900;
+
+  String atualData = String(atualAno) + "-" + String(atualMes) + "-" + String(diaMes);
+
   if(distance < tolerancia){         
     
   Serial.print("Muito Proximo");
@@ -163,7 +177,7 @@ void loop() {
 
   String formattedTime = timeClient.getFormattedTime();
   
-  snprintf (msg, MSG_BUFFER_SIZE, "MUITO PROXIMO - %s", formattedTime);
+  snprintf (msg, MSG_BUFFER_SIZE, "MUITO PROXIMO - [Horário: %s] - [Data: %s]", formattedTime, atualData);
 
   client.publish("lens/CO2", msg);
 
@@ -181,7 +195,7 @@ void loop() {
   
   Serial.println();
 
-  snprintf (msg, MSG_BUFFER_SIZE, "Proximidade: %ld cm - [Horário: %s]", distance, formattedTime);
+  snprintf (msg, MSG_BUFFER_SIZE, "Proximidade: %ld cm - [Horário: %s] - [Data: %s]", distance, formattedTime, atualData);
 
   Serial.println(msg);
   
@@ -189,7 +203,7 @@ void loop() {
 
   client.publish("lens/CO2", msg);
   
-  Serial.println(formattedTime);
+//  Serial.println(formattedTime);
   
   delay(2000);
 
