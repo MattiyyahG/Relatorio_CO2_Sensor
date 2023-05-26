@@ -36,16 +36,27 @@ As entradas se dá por, respectivamente:
 Incluindo as bibliotecas:
 
 ```
-#include <ESP8266WiFi.h>                          
+#include <ESP8266WiFi.h>          
 
 #include <PubSubClient.h>   
+
+#include <NTPClient.h>
+
+#include <WiFiUdp.h>
+
 ```
 
 Para encontrar a biblioteca do ESP8266, é necessário colocar esse URL (http://arduino.esp8266.com/stable/package_esp8266com_index.json) no diretório: Files -> Preferences -> 'Additional Boards Manager URLs:'. 
 
 Após isso, vá em: Tools -> Board -> Boards Manager... e pesquise por 'ESP8266' e adicione.
 
+Depois, Sketch -> Include Library -> Manage Libraries e pesquise por 'PubSubClient' e adicione.
+
 Não obstante, logo abaixo está a definição da variável que vai receber o valor analógico do sensor, no pino A0.
+
+NTPClient.h biblioteca desenvolvida para sincronizar com o servidor NTP, essa biblioteca foi adicionada para realizar uma sincronização do sensor com o valor do tempo/horário atual, para criar uma timestamp, com o objetivo de entender em qual horário que foi valor foi medido.
+
+WiFiUdp.h Biblioteca que lida com as tarefas do protocolo UDP, enviando e recebendo pacotes UDP enquanto estiver online.
 
 ```
 #define sensor A0
@@ -54,6 +65,13 @@ Não obstante, logo abaixo está a definição da variável que vai receber o va
 Logo abaixo, existe o código predefinido para que o ESP8266 entenda qual é a Rede que você está conectado (Ou qualquer uma que esteja em sua área de sinal). A respectiva senha do mesmo, e o broker que vai ser utilizado.
 
 Após, a declaração de um objeto de classe WiFiClient que permite a conexão com um especifico IP e porta definida, e o PubSubClient recebe uma entrada de um construtor previamente definido pelo WiFiClient.
+E logo em seguida, foi setado o servidor responsável em manter o horário mundial específico da américa do sul, existem outros como por exemplo:
+
+* pool.ntp.org
+* asia.pool.ntp.org
+* europe.pool.ntp.org
+* north-america.pool.ntp.org
+* oceania.pool.ntp.org
 
 Definição do buffer, e da tolerância da taxa de gás carbonico medida pelo sensor (MQ-135).
 
@@ -64,6 +82,9 @@ const char* password = "(Coloque a senha do mesmo)";
 
 const char* mqtt_server = "test.mosquitto.org";
 
+WiFiUDP ntpUDP;
+
+NTPClient timeClient(ntpUDP, "south-america.pool.ntp.org");
 
 WiFiClient espClient;
 
@@ -174,7 +195,7 @@ void reconnect() {
 }
 ```
 
-Função setup, onde chama a função setup_wifi e seta o valor da taxa de leitura serial em 115200 Baund Rate, e define broker na porta 1883 e chama a função callback de mensagem.
+Função setup, onde chama a função setup_wifi e seta o valor da taxa de leitura serial em 115200 Baund Rate, e define broker na porta 1883 e chama a função callback de mensagem. Respectivamente, foi chamado a função timeClient.begin() para iniciar o cliente NTP, e logo após, foi definido o fuso horário da américa do sul, que é GMT -3, em segundos o calculo é realizado da seguinte forma: (GMT da sua região: -1, -2, -3...) * 60 * 60, realizar essa multiplicação vai lhe voltar um valor, esse valor é o seu respectivo fuso horário em segundos, coloque esse valor na função timeClient.setTimeOffset() para calibrar o horário.
 
 ```
 void setup() {
@@ -187,6 +208,10 @@ void setup() {
 
   client.setCallback(callback);
 
+  timeClient.begin();
+
+  timeClient.setTimeOffset(-10800);
+
 }
 ```
 
@@ -195,6 +220,7 @@ Função loop (Laço de repetição, onde o valor de sensor vai ser medido e env
 A primeira condição na função é, se o cliente não estiver conectado, reconecte.
 
 Definindo a variável value_gas para que receba o valor análogo inteiro da variável sensor no pino A0, e caso esse valor seja maior do que a tolerancia definida, printe no monitor serial e no broker um aviso que a taxa está extremamente elevada e espere 1 segundo, e caso não seja, apenas printe o valor da taxa de gás medida no tópico do broker definido.
+Não obstante, foi definida um formato padrão para retornar o valor do tempo, tal formato esse que é de Horas:Minutos:Segundos, existe uma função pre-definida pelo timeClient, chamada "timeClient.getFormattedTime()", essa função retorna os valores do horário no formato dito anteriormente. 
 
 ```
 void loop() {
@@ -206,6 +232,8 @@ void loop() {
   }
 
   client.loop();
+
+  timeClient.update();
 
   unsigned long now = millis();
 
@@ -220,6 +248,12 @@ void loop() {
   client.publish("labnet/CO2", "TAXA DE CO2 MUITO ALTA!");
 
   Serial.println();
+
+  String formattedTime = timeClient.getFormattedTime();
+  
+  Serial.println(formattedTime);
+  
+  client.publish("lens/CO2", formattedTime.c_str());
    
   delay(1000); 
 
@@ -236,6 +270,12 @@ void loop() {
   Serial.println(msg);
 
   client.publish("labnet/CO2", msg);
+
+  String formattedTime = timeClient.getFormattedTime();
+  
+  Serial.println(formattedTime);
+  
+  client.publish("lens/CO2", formattedTime.c_str());
 
   delay(1000);
 
