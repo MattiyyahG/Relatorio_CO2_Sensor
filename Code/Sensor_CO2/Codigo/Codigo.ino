@@ -178,22 +178,22 @@ void loop() {
   if (now - lastMsg > 2000) {
 
   lastMsg = now;
+
+  String formattedTime = timeClient.getFormattedTime();
   
   Serial.println();
 
-  snprintf (msg, MSG_BUFFER_SIZE, "Proximidade: %ld cm", distance);
+  snprintf (msg, MSG_BUFFER_SIZE, "Proximidade: %ld cm - [Horário: %s]", distance, formattedTime);
 
   Serial.println(msg);
   
   Serial.println();
 
   client.publish("lens/CO2", msg);
-
-  String formattedTime = timeClient.getFormattedTime();
   
-  Serial.println(formattedTime);
+//  Serial.println(formattedTime);
   
-  client.publish("lens/CO2", formattedTime.c_str());
+//  client.publish("lens/CO2", formattedTime.c_str());
   
   delay(2000);
 
