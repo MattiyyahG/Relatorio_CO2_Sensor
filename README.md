@@ -45,6 +45,7 @@ Incluindo as bibliotecas:
 #include <WiFiUdp.h>
 
 ```
+(No código acima, não foi incluido, mas para o funcionamento do mesmo, é necessário incluir e instalar a bilioteca respectiva ao sensor que será utilizado, tal qual: "MQ-2, MQ-3, MQ-135" e afins, sem a mesma, não haverá calibração e respectivamente não funcionará o mesmo, no arquivo 'Codigo.ino' a biblioteca.
 
 Para encontrar a biblioteca do ESP8266, é necessário colocar esse URL (http://arduino.esp8266.com/stable/package_esp8266com_index.json) no diretório: Files -> Preferences -> 'Additional Boards Manager URLs:'. 
 
