@@ -2,7 +2,7 @@
 
 ## 1. Introdução.
 
-Neste relatório, será estabelecido a conexão, pinagem, e citação de materiais necessários para realizar a conexão MQTT (Message Queue Telemetry Transport) entre um ESP8266. Não obstante, o envio dos dados de um sensor de gás carbonico (CO2) - MQ135, via broker também será realizada.
+Neste relatório, será estabelecido a conexão, pinagem, e citação de materiais necessários para realizar a conexão MQTT (Message Queue Telemetry Transport) de um ESP8266. Não obstante, o envio dos dados de um sensor de gás carbonico (CO2) - MQ135, via broker também será realizada.
 
 Iniciamos da seguinte forma, com os materiais necessários para implementação do mesmo, tal qual:
 
@@ -73,14 +73,14 @@ E logo em seguida, foi setado o servidor responsável em manter o horário mundi
 * north-america.pool.ntp.org
 * oceania.pool.ntp.org
 
-Definição do buffer, e da tolerância da taxa de gás carbonico medida pelo sensor (MQ-135).
+Definição do buffer, que no caso é o tamanho da mengasem que vai ser enviada (Quantidade total de caracteres), e da tolerância da taxa de gás carbonico medida pelo sensor (MQ-135).
 
 ```
 const char* ssid = "(Substitua pelo seu WiFi)"; 
 
 const char* password = "(Coloque a senha do mesmo)"; 
 
-const char* mqtt_server = "test.mosquitto.org";
+const char* mqtt_server = "test.mosquitto.org"; //broker padrão mqtt gratuito para testes.
 
 WiFiUDP ntpUDP;
 
@@ -195,7 +195,7 @@ void reconnect() {
 }
 ```
 
-Função setup, onde chama a função setup_wifi e seta o valor da taxa de leitura serial em 115200 Baund Rate, e define broker na porta 1883 e chama a função callback de mensagem. Respectivamente, foi chamado a função timeClient.begin() para iniciar o cliente NTP, e logo após, foi definido o fuso horário da américa do sul, que é GMT -3, em segundos o calculo é realizado da seguinte forma: (GMT da sua região: -1, -2, -3...) * 60 * 60, realizar essa multiplicação vai lhe voltar um valor, esse valor é o seu respectivo fuso horário em segundos, coloque esse valor na função timeClient.setTimeOffset() para calibrar o horário.
+Função setup, onde chama a função setup_wifi e seta o valor da taxa de leitura serial em 115200 Baund Rate, e define broker na porta 1883 e chama a função callback de mensagem. Respectivamente, foi chamado a função timeClient.begin() para iniciar o cliente NTP, e logo após, foi definido o fuso horário da américa do sul, que é GMT -3, em segundos o calculo é realizado da seguinte forma: (GMT da sua região: -1, -2, -3...) * 60 * 60, realizar essa multiplicação vai lhe voltar um valor, esse valor é o seu respectivo fuso horário em segundos, coloque esse valor na função timeClient.setTimeOffset() para calibrar com o seu respectivo horário.
 
 ```
 void setup() {
@@ -222,7 +222,11 @@ A primeira condição na função é, se o cliente não estiver conectado, recon
 Definindo a variável value_gas para que receba o valor análogo inteiro da variável sensor no pino A0, e caso esse valor seja maior do que a tolerancia definida, printe no monitor serial e no broker um aviso que a taxa está extremamente elevada e espere 1 segundo, e caso não seja, apenas printe o valor da taxa de gás medida no tópico do broker definido.
 Não obstante, foi definida um formato padrão para retornar o valor do tempo, tal formato esse que é de Horas:Minutos:Segundos, existe uma função pre-definida pelo timeClient, chamada "timeClient.getFormattedTime()", essa função retorna os valores do horário no formato dito anteriormente. 
 
-Complementando com os valores da data atual, pra isso, foi necessário utilizar novamente o servidor de salvamento de dados do dia atual, e bastou apenas chama-las para a função, tal qual, inicialmente, foi definido o tempo da época (função essa pré-definida na database) "timeClient.getEpochTime()" essa função obtém o valor da data da época atual, após, foi criada outra estruturada para receber esse valor, nesse momento foi definido como um inteiro o valor do dia, do mês atual e do ano atual, não obstante, todas essas variáveis foram chamadas numa final, "atualData" que recebe todos os valores coletados e transforma em apenas 1 string.
+Complementando com os valores da data atual, pra isso, foi necessário utilizar novamente o servidor de salvamento de dados do dia atual, e batou apenas chama-las para a função, tal qual, inicialmente, foi definido o tempo da época (função essa pré-definida na database) "timeClient.getEpochTime()" essa função obtém o valor da data da época atual, após, foi criada outra estruturada para receber esse valor, nesse momento foi definido como um inteiro o valor do dia, do mês atual e do ano atual, não obstante, todas essas variáveis foram chamadas numa final, "atualData" que recebe todos os valores coletados e transforma em apenas 1 string. 
+Como a variavel "tm_mday" se inicia com o valor em 0, basta adicionarmos o valor inteiro 1 ao mês para que "janeiro" seja respectivo com o mesmo valor igual a 1, fevereiro a 2 e assim por diante.
+Logo abaixo, foi criada a variavel cujo recebe o valor inteiro "atualMes" que como o próprio nome diz, ela obtem o valor inteiro do mês respectivo atual.
+A seguir, "atualAno", com essa biblioteca, ela apenas consegue salvar valores do ano a partir de 1900, logo, é necessario adicionar esse valor inteiro na nova variavel para conseguir corresponder com o ano que se encontra atualmente.
+
 
 ```
 void loop() {
@@ -299,7 +303,8 @@ void loop() {
  
 }
 ```
-## 4. Bibliografia.
+
+## 4. Referências.
 
 * 1) (https://how2electronics.com/gas-level-monitor-esp8266-gas-sensor/), Autor: How to Electronics.
 
