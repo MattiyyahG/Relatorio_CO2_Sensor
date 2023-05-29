@@ -1,6 +1,10 @@
 # Relatório
 
-## 1. Introdução.
+## 1. Resumo 
+
+Neste trabalho será apresentado o desenvolvimento de um sensor de CO2 com transmissão de dados utilizando o módulo ESP8266 e o protocolo MQTT. Além disso, foi implementada uma funcionalidade de time stamp para registrar a data e hora das leituras enviadas para o broker. Essa abordagem permite uma análise mais precisa e um melhor entendimento dos níveis de CO2 no ambiente monitorado, contribuindo para a tomada de decisões eficientes em relação à qualidade do ar.
+
+## 2. Introdução.
 
 Neste relatório, será estabelecido a conexão, pinagem, e citação de materiais necessários para realizar a conexão MQTT (Message Queue Telemetry Transport) de um ESP8266. Não obstante, o envio dos dados de um sensor de gás carbonico (CO2) - MQ135, via broker também será realizada.
 
@@ -12,7 +16,7 @@ Iniciamos da seguinte forma, com os materiais necessários para implementação 
 * Sensor MQ-135.
 * Protoboard (Opcional caso não haja pinagem soldada no ESP8266).
 
-## 2. Pinout Modelo Esquemático.
+## 3. Pinout Modelo Esquemático.
 
 Abaixo (1), está o modelo esquemático da pinagem para implementação do ESP8266:
 
@@ -31,7 +35,7 @@ As entradas se dá por, respectivamente:
 * GND - Terra/GND.
 * VCC - Entrada de energia (3.3v). [Cuidado, se colocar em 5v a probabilidade de ocorrer acidentes é alta!].
 
-## 3. Código.
+## 4. Código.
 
 Incluindo as bibliotecas:
 
@@ -305,7 +309,7 @@ void loop() {
 }
 ```
 
-## 4. Referências.
+## 5. Referências.
 
 * 1) (https://how2electronics.com/gas-level-monitor-esp8266-gas-sensor/), Autor: How to Electronics.
 
