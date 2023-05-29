@@ -78,7 +78,7 @@ E logo em seguida, foi setado o servidor responsável em manter o horário mundi
 * north-america.pool.ntp.org
 * oceania.pool.ntp.org
 
-Definição do buffer, que no caso é o tamanho da mengasem que vai ser enviada (Quantidade total de caracteres), e da tolerância da taxa de gás carbonico medida pelo sensor (MQ-135).
+Definição do buffer, que no caso é o tamanho da mensagem que vai ser enviada (Quantidade total de caracteres), e da tolerância da taxa de gás carbonico medida pelo sensor (MQ-135).
 
 ```
 const char* ssid = "(Substitua pelo seu WiFi)"; 
@@ -106,6 +106,15 @@ int tolerancia = 100000;
 ```
 
 Abaixo, configurações antes e depois da conexão ter sido feita, vai ocorrer um print no serial do arduino enquanto a conexão com o Wi-Fi não for concluida, e respectivamente, printar um "." enquanto o status do wifi for diferente de conectado, e quando conectar, printar uma mensagem de confirmação e o respectivo endereço IP.
+
+"WiFi.mode()" Quando insere o comando "WIFI_STA" nos dentro dos colchetes, você estará definindo a placa ESP8266 no modo estação, tal modo esse que funciona da seguinte forma, quando iniciado, ou chamado, ele consegue conectar a outras redes, como se fosse um respectivo roteador, não obstante, certamente após a conexão, a placa ESP8266 recebe um endereço de IP unico, com isso, ele consegue se comunicar com outros dispositivos, que no caso são estações, conectadas na mesma rede, mas, a conexão vai ser feita e conectada com o endereço IP do próprio ESP8266 que foi definida. 
+
+"WiFi.begin()" Feito para iniciar com o login (ssid) e a senha do WiFi, após, uma função foi feita para aguardar enquanto a conexão não foi estabelecida, colocando um ". (Ponto)" enquanto o status do wifi for diferente de conectado.
+
+O comando "randomSeed(micros())" foi usado para inicializar o gerador de números pseudoaleatórios com uma semente baseada no tempo atual, garantindo que diferentes execuções do programa gerem sequências de números pseudoaleatórios distinta, para atualizar, na medida que cada valor fosse recebido.
+
+Em resumo, esse trabalho se baseou na seguinte forma o roteador foi definido como um ponto de acesso principal, e as estações (ESP8266, e qualquer dispositivo conectado ao broker). 
+Tambem é possivel definir a placa ESP8266 como um ponto de acesso, igual ao roteador, mas não foi necessário nesse trabalho.
 
 ```
 void setup_wifi() {
@@ -193,14 +202,16 @@ void reconnect() {
 
     delay(5000);
 
-  }
+    }
 
   }
 
 }
 ```
 
-Função setup, onde chama a função setup_wifi e seta o valor da taxa de leitura serial em 115200 Baund Rate, e define broker na porta 1883 e chama a função callback de mensagem. Respectivamente, foi chamado a função timeClient.begin() para iniciar o cliente NTP, e logo após, foi definido o fuso horário da américa do sul, que é GMT -3, em segundos o calculo é realizado da seguinte forma: (GMT da sua região: -1, -2, -3...) * 60 * 60, realizar essa multiplicação vai lhe voltar um valor, esse valor é o seu respectivo fuso horário em segundos, coloque esse valor na função timeClient.setTimeOffset() para calibrar com o seu respectivo horário.
+Função setup, onde chama a função "setup_wifi" e seta o valor da taxa de leitura serial em 115200 Baund Rate, e define broker na porta 1883 e chama a função callback de mensagem.
+A função "client.setServer(mqtt_server, 1883)" realiza a seguinte tarefa, conecta ao servidor no endereço que foi definido
+Respectivamente, foi chamado a função timeClient.begin() para iniciar o cliente NTP, e logo após, foi definido o fuso horário da américa do sul, que é GMT -3, em segundos o calculo é realizado da seguinte forma: (GMT da sua região: -1, -2, -3...) * 60 * 60, realizar essa multiplicação vai lhe voltar um valor, esse valor é o seu respectivo fuso horário em segundos, coloque esse valor na função timeClient.setTimeOffset() para calibrar com o seu respectivo horário.
 
 ```
 void setup() {
