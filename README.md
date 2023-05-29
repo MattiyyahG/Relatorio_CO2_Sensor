@@ -320,8 +320,24 @@ void loop() {
 }
 ```
 
-## 5. Referências.
+## 5. Referências e Material de Leitura.
 
 * 1) (https://how2electronics.com/gas-level-monitor-esp8266-gas-sensor/), Autor: How to Electronics.
 
 * 2) (https://www.circuits-diy.com/mq135-air-quality-smoke-gas-sensor/), Autor: Farwah Nawazi.
+
+* 3) (https://randomnerdtutorials.com/esp32-useful-wi-fi-functions-arduino/), Autor: Random Nerd Tutorials.
+
+* 4) (https://lastminuteengineers.com/esp8266-ntp-server-date-time-tutorial/), Autor: Last Minute Engineers.
+
+* 5) (https://linuxhint.com/esp32-ntp-client-server-date-time/), Autor: Kashif.
+
+* 6) (https://randomnerdtutorials.com/esp8266-nodemcu-date-time-ntp-client-server-arduino/), Autor: Random Nerd Tutorials.
+
+* 7) (https://github.com/Martinsos/arduino-lib-hc-sr04), Autor: Martinsos.
+
+* 8) (https://www.instructables.com/Getting-Time-From-Internet-Using-ESP8266-NTP-Clock/), Autor: Utsource.
+
+* 9) (https://techtutorialsx.com/2017/04/09/esp8266-connecting-to-mqtt-broker/), Autor: Techtutorialsx.
+
+* 10) (https://www.instructables.com/NodeMCU-MQTT-Basic-Example/), Autor: Osoyooproduct.
