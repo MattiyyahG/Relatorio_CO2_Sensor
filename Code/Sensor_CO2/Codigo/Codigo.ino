@@ -156,8 +156,6 @@ void loop() {
 
   int distance = distanceSensor.measureDistanceCm();
 
-//  int valor_dist = analogRead(sensor); 
-
 //Definindo o tempo e a data
 
   time_t epochTime = timeClient.getEpochTime();
@@ -172,46 +170,28 @@ void loop() {
 
   String atualData = String(atualAno) + "-" + String(atualMes) + "-" + String(diaMes);
 
-  if(distance < tolerancia){         
-    
-  Serial.print("Muito Proximo");
-    
-  Serial.println();
-
   String formattedTime = timeClient.getFormattedTime();
+
+  if(distance < tolerancia){         
   
   snprintf (msg, MSG_BUFFER_SIZE, "MUITO PROXIMO - [Horário: %s] - [Data: %s]", formattedTime, atualData);
 
   client.publish("lens/CO2", msg);
-
-  delay(2000); 
   
   }
- 
-  else {
     
   if (now - lastMsg > 2000) {
 
   lastMsg = now;
 
-  String formattedTime = timeClient.getFormattedTime();
-  
-  Serial.println();
-
   snprintf (msg, MSG_BUFFER_SIZE, "Proximidade: %ld cm - [Horário: %s] - [Data: %s]", distance, formattedTime, atualData);
 
   Serial.println(msg);
-  
-  Serial.println();
 
   client.publish("lens/CO2", msg);
-  
-//  Serial.println(formattedTime);
   
   delay(2000);
 
     }
- 
-  }
- 
 }
+ 
