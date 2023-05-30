@@ -89,18 +89,17 @@ WiFiUdp.h Biblioteca que lida com as tarefas do protocolo UDP, enviando e recebe
 #define sensor A0
 ```
 
-Logo abaixo, existe o código predefinido para que o ESP8266 entenda qual é a Rede que você está conectado (Ou qualquer uma que esteja em sua área de sinal). A respectiva senha do mesmo, e o broker que vai ser utilizado.
+Abaixo está o código predefinido para configurar o ESP8266 com informações sobre a rede Wi-Fi à qual você deseja se conectar (ou qualquer rede disponível na área), a respectiva senha e o broker que será utilizado.
 
-Após, a declaração de um objeto de classe WiFiClient que permite a conexão com um especifico IP e porta definida, e o PubSubClient recebe uma entrada de um construtor previamente definido pelo WiFiClient.
-E logo em seguida, foi setado o servidor responsável em manter o horário mundial específico da américa do sul, existem outros como por exemplo:
+Em seguida, é feita a declaração de um objeto da classe WiFiClient, que permite a conexão com um IP e porta específicos definidos. O objeto PubSubClient é inicializado com o construtor que recebe o WiFiClient como parâmetro. Em seguida, o servidor responsável por fornecer o horário mundial específico da América do Sul é definido. Outros servidores possíveis são:
 
-* pool.ntp.org
-* asia.pool.ntp.org
-* europe.pool.ntp.org
-* north-america.pool.ntp.org
-* oceania.pool.ntp.org
+    pool.ntp.org
+    asia.pool.ntp.org
+    europe.pool.ntp.org
+    north-america.pool.ntp.org
+    oceania.pool.ntp.org
 
-Definição do buffer, que no caso é o tamanho da mensagem que vai ser enviada (Quantidade total de caracteres), e da tolerância da taxa de gás carbonico medida pelo sensor (MQ-135).
+Também é definido o tamanho do buffer, que representa a quantidade total de caracteres da mensagem a ser enviada, bem como a tolerância da taxa de gás carbônico medida pelo sensor MQ-135.
 
 ```
 const char* ssid = "(Substitua pelo seu WiFi)"; 
@@ -173,7 +172,7 @@ void setup_wifi() {
 }
 ```
 
-Logo abaixo, uma funçao callback foi criada, cujo objetivo principal é, após uma mensagem ter sido de fato enviada e recebida sem nenhum problema, envie uma confirmação de mensagem no serial, especificando em qual tópico a mensagem foi enviada e recebida, e continue enquanto a mensagem for enviada.
+Logo abaixo, é criada uma função de retorno de chamada (callback) cujo objetivo principal é enviar uma confirmação para o serial após uma mensagem ter sido enviada e recebida sem problemas. A confirmação inclui informações sobre o tópico no qual a mensagem foi enviada e recebida. A função continuará executando enquanto as mensagens estiverem sendo enviadas.
 
 ```
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -194,7 +193,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 }
 ```
 
-Não obstante, a função de reconexão foi criada, que diz, enquanto o status do cliente for diferente de conectado, realize um print que está tentando reconectar a conexão com o client definido, agora, se o cliente estiver conectado, mande uma mensagem confirmando que está, e publique no tópico criado no broker a seguinte mensagem de "olá mundo" e se inscreva no tópico. Agora, caso nenhuma das alternativas foram concluidas com sucesso, envie uma confirmação de falha e printe o status no serial.
+Além disso, foi criada uma função de reconexão, que verifica o status do cliente. Se o cliente estiver desconectado, será exibida uma mensagem informando que está tentando reconectar à conexão com o cliente definido. Se o cliente estiver conectado, será enviada uma mensagem de confirmação e será publicada a mensagem "olá mundo" no tópico criado no broker, além de se inscrever nesse tópico. No entanto, se nenhuma das opções for concluída com sucesso, será enviada uma confirmação de falha e o status será impresso no serial.
 
 ```
 void reconnect() {
@@ -230,9 +229,9 @@ void reconnect() {
 }
 ```
 
-Função setup, onde chama a função "setup_wifi" e seta o valor da taxa de leitura serial em 115200 Baund Rate, e define broker na porta 1883 e chama a função callback de mensagem.
-A função "client.setServer(mqtt_server, 1883)" realiza a seguinte tarefa, conecta ao servidor no endereço que foi definido
-Respectivamente, foi chamado a função timeClient.begin() para iniciar o cliente NTP, e logo após, foi definido o fuso horário da américa do sul, que é GMT -3, em segundos o calculo é realizado da seguinte forma: (GMT da sua região: -1, -2, -3...) * 60 * 60, realizar essa multiplicação vai lhe voltar um valor, esse valor é o seu respectivo fuso horário em segundos, coloque esse valor na função timeClient.setTimeOffset() para calibrar com o seu respectivo horário.
+Na função setup, é feita a chamada da função "setup_wifi" para configurar a conexão Wi-Fi, e é definida a taxa de leitura serial em 115200 Baund Rate. O broker é configurado na porta 1883 e a função de retorno de chamada de mensagem é ativada.
+
+A função "client.setServer(mqtt_server, 1883)" conecta o dispositivo ao servidor no endereço especificado. Em seguida, é iniciado o cliente NTP com a função timeClient.begin(). O fuso horário da América do Sul, que é GMT -3, é configurado em segundos usando o cálculo: (GMT da sua região: -1, -2, -3...) * 60 * 60. O resultado desse cálculo é utilizado para calibrar o horário com a função timeClient.setTimeOffset().
 
 ```
 void setup() {
@@ -252,17 +251,19 @@ void setup() {
 }
 ```
 
-Função loop (Laço de repetição, onde o valor de sensor vai ser medido e enviado para o broker repetidamente). 
+Na função loop (um laço de repetição), o valor do sensor é medido e enviado repetidamente para o broker.
 
-A primeira condição na função é, se o cliente não estiver conectado, reconecte.
+A primeira condição verifica se o cliente não está conectado e, nesse caso, realiza uma reconexão.
 
-Definindo a variável value_gas para que receba o valor análogo inteiro da variável sensor no pino A0, e caso esse valor seja maior do que a tolerancia definida, printe no monitor serial e no broker um aviso que a taxa está extremamente elevada e espere 1 segundo, e caso não seja, apenas printe o valor da taxa de gás medida no tópico do broker definido.
-Não obstante, foi definida um formato padrão para retornar o valor do tempo, tal formato esse que é de Horas:Minutos:Segundos, existe uma função pre-definida pelo timeClient, chamada "timeClient.getFormattedTime()", essa função retorna os valores do horário no formato dito anteriormente. 
+É definida a variável "value_gas" para receber o valor analógico inteiro do sensor no pino A0. Se esse valor for maior do que a tolerância definida, será impresso um aviso no monitor serial e no broker indicando que a taxa está extremamente elevada, e em seguida, aguarda-se 1 segundo. Caso contrário, apenas o valor da taxa de gás medida é impresso no tópico do broker.
 
-Complementando com os valores da data atual, pra isso, foi necessário utilizar novamente o servidor de salvamento de dados do dia atual, e batou apenas chama-las para a função, tal qual, inicialmente, foi definido o tempo da época (função essa pré-definida na database) "timeClient.getEpochTime()" essa função obtém o valor da data da época atual, após, foi criada outra estruturada para receber esse valor, nesse momento foi definido como um inteiro o valor do dia, do mês atual e do ano atual, não obstante, todas essas variáveis foram chamadas numa final, "atualData" que recebe todos os valores coletados e transforma em apenas 1 string. 
-Como a variavel "tm_mday" se inicia com o valor em 0, basta adicionarmos o valor inteiro 1 ao mês para que "janeiro" seja respectivo com o mesmo valor igual a 1, fevereiro a 2 e assim por diante.
-Logo abaixo, foi criada a variavel cujo recebe o valor inteiro "atualMes" que como o próprio nome diz, ela obtem o valor inteiro do mês respectivo atual.
-A seguir, "atualAno", com essa biblioteca, ela apenas consegue salvar valores do ano a partir de 1900, logo, é necessario adicionar esse valor inteiro na nova variavel para conseguir corresponder com o ano que se encontra atualmente.
+Além disso, é configurado um formato padrão para exibir o horário, no formato de Horas:Minutos:Segundos. A função "timeClient.getFormattedTime()" retorna os valores do horário nesse formato.
+
+Para complementar com os valores da data atual, é utilizado novamente o servidor de salvamento de dados do dia atual. É utilizado a função "timeClient.getEpochTime()" para obter o valor da data atual em forma de época. Em seguida, é criada uma estrutura para armazenar esse valor, convertendo-o em um inteiro para o dia, mês e ano atuais. Essas variáveis são utilizadas para criar uma string chamada "atualData", que contém todos os valores coletados em um único formato.
+
+Como a variável "tm_mday" inicia com o valor 0, é necessário adicionar o valor inteiro 1 ao mês para que "janeiro" seja representado pelo valor 1, fevereiro pelo valor 2 e assim por diante.
+
+Logo abaixo, é criada a variável "atualMes" para armazenar o valor inteiro do mês atual. E em seguida, a variável "atualAno" é configurada para corresponder ao ano atual. É importante observar que essa biblioteca somente permite salvar valores de ano a partir de 1900, então é necessário adicionar esse valor inteiro para obter o ano corrente.
 
 
 ```
