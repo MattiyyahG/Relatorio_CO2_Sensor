@@ -1,4 +1,4 @@
-# Relatório
+# Relatório sobre a implementação do sensor de dióxido de carbono e envio de dados via MQTT.
 
 ## 1. Resumo 
 
