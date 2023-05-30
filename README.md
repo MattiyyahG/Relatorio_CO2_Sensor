@@ -280,8 +280,6 @@ void loop() {
 
   int value_gas = analogRead(sensor); 
 
-//Definindo o tempo e a data
-
   time_t epochTime = timeClient.getEpochTime();
 
   struct tm *ptm = gmtime ((time_t *)&epochTime); 
@@ -294,46 +292,28 @@ void loop() {
 
   String atualData = String(atualAno) + "-" + String(atualMes) + "-" + String(diaMes);
 
-  if(value_gas > tolerancia){ 
-    
-  Serial.print("TAXA DE CO2 MUITO ALTA, FOGO");
-    
-  Serial.println();
-
-  Serial.println();
-
   String formattedTime = timeClient.getFormattedTime();
 
+  if(value_gas > tolerancia){ 
+  
   snprintf (msg, MSG_BUFFER_SIZE, "TAXA DE CO2 MUITO ALTA! - [Horário: %s] - [Data: %s]", formattedTime, atualData);
   
   client.publish("lens/CO2", msg);
-   
-  delay(1000); 
+
+  delay(2000);
 
   }
-  
-  else {
     
   if (now - lastMsg > 2000) {
 
   lastMsg = now;
 
-  String formattedTime = timeClient.getFormattedTime();
-
-  Serial.println();
-
   snprintf (msg, MSG_BUFFER_SIZE, "Taxa de Gás: %ld ppm - [Horário: %s]- [Data: %s]", value_gas, formattedTime, atualData);
-
-  Serial.println(msg);
-
-  Serial.println();
 
   client.publish("labnet/CO2", msg);
 
-  delay(1000);
+  delay(2000);
 
-    }
- 
   }
  
 }
