@@ -45,7 +45,7 @@ Abaixo (1), está o modelo esquemático da pinagem para implementação do ESP82
 ![PinOut](Code/Assets/ESP8266_PinOut.png)
 
 
-Na imagem abaixo (2), foi utilizado o sensor MQ-7, mas o mesmo esquemático se aplica ao MQ-135, pois a pinagem do MQ-135 se dá por:
+(Na imagem acima (2), foi utilizado o sensor MQ-7, mas o mesmo esquemático se aplica ao MQ-135, pois a pinagem do MQ-135 se dá por:)
 
 ![MQ-135 Pinagem](https://www.circuits-diy.com/wp-content/uploads/2021/10/MQ135-pinout-air-quality-sensor.jpg)
 
