@@ -16,7 +16,31 @@ Iniciamos da seguinte forma, com os materiais necessários para implementação 
 * Sensor MQ-135.
 * Protoboard (Opcional caso não haja pinagem soldada no ESP8266).
 
-## 3. Pinout Modelo Esquemático.
+## 3. Metodologia
+
+Para atingir o objetivo proposto, foram utilizados os seguintes componentes e tecnologias:
+
+## 3.1 Módulo ESP8266 
+
+O módulo ESP8266 foi selecionado como plataforma de desenvolvimento devido à sua capacidade de se conectar a redes Wi-Fi e sua compatibilidade com o protocolo MQTT. Esse módulo permite a integração do sensor de CO2 e a transmissão dos dados coletados para um broker MQTT.
+
+![ESP8266](Code/Assets/esp8266.jpg)
+
+## 3.2 Protocolo MQTT
+
+O protocolo MQTT (Message Queuing Telemetry Transport) é um protocolo leve e de baixo consumo de energia, o que o torna ideal para o envio de dados de sensores em redes de dispositivos conectados.
+
+## 3.3 Sensor de CO2
+
+Foi utilizado um sensor de CO2 de alta precisão para realizar as medições dos níveis de dióxido de carbono no ambiente monitorado. tal sensor fornece leituras confiáveis e estáveis, garantindo a qualidade dos dados coletados.
+
+![MQ135](Code/Assets/MQ-135.webp)
+
+## 3.4 Time Stamp
+
+Tambem foi implementado uma funcionalidade de time stamp para registrar a data e hora das leituras enviadas para o broker MQTT. Essa informação é fundamental para análises posteriores e permite um melhor entendimento das variações nos níveis de CO2 ao longo do tempo.
+
+## 4. Pinout Modelo Esquemático.
 
 Abaixo (1), está o modelo esquemático da pinagem para implementação do ESP8266:
 
@@ -35,7 +59,7 @@ As entradas se dá por, respectivamente:
 * GND - Terra/GND.
 * VCC - Entrada de energia (3.3v). [Cuidado, se colocar em 5v a probabilidade de ocorrer acidentes é alta!].
 
-## 4. Código.
+## 5. Código.
 
 Incluindo as bibliotecas:
 
@@ -320,7 +344,11 @@ void loop() {
 }
 ```
 
-## 5. Referências e Material de Leitura.
+## 6. Resultados e Discussão
+
+O sensor de CO2 com transmissão de dados utilizando o módulo ESP8266 e o protocolo MQTT foi implementado com sucesso. As leituras de CO2, juntamente com as informações de time stamp, foram enviadas para o broker MQTT de forma eficiente e essa abordagem permitiu uma análise mais precisa e um melhor entendimento dos níveis de CO2 no ambiente monitorado. A disponibilidade dos dados em tempo real possibilita a identificação de padrões e variações nos níveis de CO2 ao longo do tempo, auxiliando na tomada de decisões eficientes em relação à qualidade do ar.
+
+## 7. Referências e Material de Leitura.
 
 * 1) (https://how2electronics.com/gas-level-monitor-esp8266-gas-sensor/), Autor: How to Electronics.
 

@@ -1,4 +1,4 @@
-//Abaixo, foi definido o código, mas o sensor utilizado foi o de distância Ultrassônico HC-SR04
+//Abaixo, foi definido o código, mas o sensor utilizado foi o de distância Ultrassônico HC-SR04...
 //Por motivos de acessibilidade, mas a implementação é a mesma da mencionada no READ.ME, mas apenas a biblioteca e as variaveis necessarias para o funcionamento do mesmo que foram alteradas.
 
 #include <ESP8266WiFi.h>
