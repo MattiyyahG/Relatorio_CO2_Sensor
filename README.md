@@ -49,9 +49,6 @@ Abaixo (1), está o modelo esquemático da pinagem para implementação do ESP82
 
 ![MQ-135 Pinagem](https://www.circuits-diy.com/wp-content/uploads/2021/10/MQ135-pinout-air-quality-sensor.jpg)
 
-
-
-As entradas se dá por, respectivamente:
 * A0 - Saída do valor analógico registrado/medido pelo sensor.
 * D0 - Saída digital, o valor limite de tolerância pode ser definido usando o potenciômetro.
 * GND - Terra/GND.
