@@ -127,16 +127,15 @@ char msg[MSG_BUFFER_SIZE];
 int tolerancia = 100000;
 ```
 
-Abaixo, configurações antes e depois da conexão ter sido feita, vai ocorrer um print no serial do arduino enquanto a conexão com o Wi-Fi não for concluida, e respectivamente, printar um "." enquanto o status do wifi for diferente de conectado, e quando conectar, printar uma mensagem de confirmação e o respectivo endereço IP.
+Abaixo estão as configurações antes e depois da conexão ser estabelecida. Durante esse processo, o Arduino irá imprimir no serial até que a conexão Wi-Fi seja concluída. Enquanto o status do Wi-Fi for diferente de "conectado", será impresso um ".". Quando a conexão for estabelecida, será impressa uma mensagem de confirmação juntamente com o endereço IP correspondente.
 
-"WiFi.mode()" Quando insere o comando "WIFI_STA" nos dentro dos colchetes, você estará definindo a placa ESP8266 no modo estação, tal modo esse que funciona da seguinte forma, quando iniciado, ou chamado, ele consegue conectar a outras redes, como se fosse um respectivo roteador, não obstante, certamente após a conexão, a placa ESP8266 recebe um endereço de IP unico, com isso, ele consegue se comunicar com outros dispositivos, que no caso são estações, conectadas na mesma rede, mas, a conexão vai ser feita e conectada com o endereço IP do próprio ESP8266 que foi definida. 
+Para definir a placa ESP8266 no modo estação, utilize o comando "WiFi.mode(WIFI_STA)". Esse modo permite que a placa se conecte a outras redes, funcionando como um roteador. Após a conexão, a placa ESP8266 receberá um endereço IP único, possibilitando a comunicação com outros dispositivos conectados à mesma rede. Nesse caso, a conexão será feita usando o endereço IP definido para o próprio ESP8266.
 
-"WiFi.begin()" Feito para iniciar com o login (ssid) e a senha do WiFi, após, uma função foi feita para aguardar enquanto a conexão não foi estabelecida, colocando um ". (Ponto)" enquanto o status do wifi for diferente de conectado.
+Para iniciar a conexão com o Wi-Fi, utilize o comando "WiFi.begin()" informando o nome da rede (SSID) e a senha correspondente. Em seguida, uma função será executada para aguardar a estabilização da conexão, exibindo um "." enquanto o status do Wi-Fi estiver diferente de "conectado".
 
-O comando "randomSeed(micros())" foi usado para inicializar o gerador de números pseudoaleatórios com uma semente baseada no tempo atual, garantindo que diferentes execuções do programa gerem sequências de números pseudoaleatórios distinta, para atualizar, na medida que cada valor fosse recebido.
+O comando "randomSeed(micros())" é utilizado para inicializar o gerador de números pseudoaleatórios com uma semente baseada no tempo atual. Isso garante que diferentes execuções do programa gerem sequências distintas de números pseudoaleatórios, atualizando o valor a cada recebimento.
 
-Em resumo, esse trabalho se baseou na seguinte forma o roteador foi definido como um ponto de acesso principal, e as estações (ESP8266, e qualquer dispositivo conectado ao broker). 
-Tambem é possivel definir a placa ESP8266 como um ponto de acesso, igual ao roteador, mas não foi necessário nesse trabalho.
+Resumidamente, nesse trabalho, o roteador foi configurado como ponto de acesso principal, e as estações (ESP8266 e outros dispositivos conectados ao broker) se conectaram a ele. Também é possível configurar a placa ESP8266 como um ponto de acesso semelhante ao roteador, mas isso não foi necessário nesse projeto.
 
 ```
 void setup_wifi() {
