@@ -66,8 +66,8 @@ Incluindo as bibliotecas:
 #include <NTPClient.h>
 
 #include <WiFiUdp.h>
-
 ```
+
 (No código acima, não foi incluido, mas para o funcionamento do mesmo, é necessário incluir e instalar a bilioteca respectiva ao sensor que será utilizado, tal qual: "MQ-2, MQ-3, MQ-135" e afins, sem a mesma, não haverá calibração e respectivamente não funcionará o mesmo, no arquivo 'Codigo.ino' a biblioteca.)
 
 Para encontrar a biblioteca do ESP8266, é necessário colocar esse URL (http://arduino.esp8266.com/stable/package_esp8266com_index.json) no diretório: Files -> Preferences -> 'Additional Boards Manager URLs:'. 
@@ -86,7 +86,7 @@ WiFiUdp.h Biblioteca que lida com as tarefas do protocolo UDP, enviando e recebe
 #define sensor A0
 ```
 
-Abaixo está o código predefinido para configurar o ESP8266 com informações sobre a rede Wi-Fi à qual você deseja se conectar (ou qualquer rede disponível na área), a respectiva senha e o broker que será utilizado.
+Abaixo está o código predefinido para configurar o ESP8266 com informações sobre a rede Wi-Fi à qual você deseja se conectar (ou qualquer rede disponível na área), a respectiva senha e o broker que será utilizado. Existem diversos brokers gratuitos, o que foi utilizado nesse trabalho foi um de testes feito pelo mosquitto.
 
 Em seguida, é feita a declaração de um objeto da classe WiFiClient, que permite a conexão com um IP e porta específicos definidos. O objeto PubSubClient é inicializado com o construtor que recebe o WiFiClient como parâmetro. Em seguida, o servidor responsável por fornecer o horário mundial específico da América do Sul é definido. Outros servidores possíveis são:
 
@@ -103,7 +103,7 @@ const char* ssid = "(Substitua pelo seu WiFi)";
 
 const char* password = "(Coloque a senha do mesmo)"; 
 
-const char* mqtt_server = "test.mosquitto.org"; //broker padrão mqtt gratuito para testes.
+const char* mqtt_server = "test.mosquitto.org";
 
 WiFiUDP ntpUDP;
 
