@@ -13,9 +13,9 @@
 
 //#define sensor A0
 
-const byte triggerPin = D6;
-
 const byte echoPin = D5;
+
+const byte triggerPin = D6;
 
 const char* ssid = "wPESC-Visitante";
 
