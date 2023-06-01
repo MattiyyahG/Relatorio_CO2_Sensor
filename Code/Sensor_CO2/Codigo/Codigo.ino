@@ -164,7 +164,7 @@ void loop() {
 
   int atualAno = ptm-> tm_year + 1900;
 
-  String atualData = String(atualAno) + "-" + String(atualMes) + "-" + String(diaMes);
+  String atualData = String(diaMes) + "/" + String(atualMes) + "/" + String(atualAno);
 
   String formattedTime = timeClient.getFormattedTime();
     

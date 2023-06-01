@@ -45,7 +45,7 @@ Abaixo (1), está o modelo esquemático da pinagem para implementação do ESP82
 ![PinOut](Code/Assets/ESP8266_PinOut.png)
 
 
-(Na imagem acima (2), foi utilizado o sensor MQ-7, mas o mesmo esquemático se aplica ao MQ-135, pois a pinagem do MQ-135 se dá por:)
+(Na imagem acima (2), foi utilizado o sensor MQ-7, mas o mesmo esquemático se aplica ao MQ-135, pois a pinagem do MQ-135 se dá por:).
 
 ![MQ-135 Pinagem](https://www.circuits-diy.com/wp-content/uploads/2021/10/MQ135-pinout-air-quality-sensor.jpg)
 
@@ -90,11 +90,11 @@ Abaixo está o código predefinido para configurar o ESP8266 com informações s
 
 Em seguida, é feita a declaração de um objeto da classe WiFiClient, que permite a conexão com um IP e porta específicos definidos. O objeto PubSubClient é inicializado com o construtor que recebe o WiFiClient como parâmetro. Em seguida, o servidor responsável por fornecer o horário mundial específico da América do Sul é definido. Outros servidores possíveis são:
 
-    pool.ntp.org
-    asia.pool.ntp.org
-    europe.pool.ntp.org
-    north-america.pool.ntp.org
-    oceania.pool.ntp.org
+* pool.ntp.org
+* asia.pool.ntp.org
+* europe.pool.ntp.org
+* north-america.pool.ntp.org
+* oceania.pool.ntp.org
 
 Também é definido o tamanho do buffer, que representa a quantidade total de caracteres da mensagem a ser enviada.
 
@@ -112,7 +112,6 @@ NTPClient timeClient(ntpUDP, "south-america.pool.ntp.org");
 WiFiClient espClient;
 
 PubSubClient client(espClient);
-
 
 unsigned long lastMsg = 0;
 
