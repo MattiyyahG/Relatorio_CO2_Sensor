@@ -154,8 +154,6 @@ void loop() {
 
   int distance = distanceSensor.measureDistanceCm();
 
-//Definindo o tempo e a data
-
   time_t epochTime = timeClient.getEpochTime();
 
   struct tm *ptm = gmtime ((time_t *)&epochTime); 
