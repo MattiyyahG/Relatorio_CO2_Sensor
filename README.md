@@ -96,7 +96,7 @@ Em seguida, é feita a declaração de um objeto da classe WiFiClient, que permi
     north-america.pool.ntp.org
     oceania.pool.ntp.org
 
-Também é definido o tamanho do buffer, que representa a quantidade total de caracteres da mensagem a ser enviada, bem como a tolerância da taxa de gás carbônico medida pelo sensor MQ-135.
+Também é definido o tamanho do buffer, que representa a quantidade total de caracteres da mensagem a ser enviada.
 
 ```
 const char* ssid = "(Substitua pelo seu WiFi)"; 
@@ -120,7 +120,6 @@ unsigned long lastMsg = 0;
 
 char msg[MSG_BUFFER_SIZE];                   
 
-int tolerancia = 100000;
 ```
 
 Abaixo estão as configurações antes e depois da conexão ser estabelecida. Durante esse processo, o Arduino irá imprimir no serial até que a conexão Wi-Fi seja concluída. Enquanto o status do Wi-Fi for diferente de "conectado", será impresso um ".". Quando a conexão for estabelecida, será impressa uma mensagem de confirmação juntamente com o endereço IP correspondente.
@@ -185,6 +184,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print((char)payload[i]);
   
   }
+
   Serial.println();
 
 }
@@ -252,7 +252,7 @@ Na função loop (um laço de repetição), o valor do sensor é medido e enviad
 
 A primeira condição verifica se o cliente não está conectado e, nesse caso, realiza uma reconexão.
 
-É definida a variável "value_gas" para receber o valor analógico inteiro do sensor no pino A0. Se esse valor for maior do que a tolerância definida, será impresso um aviso no monitor serial e no broker indicando que a taxa está extremamente elevada, e em seguida, aguarda-se 1 segundo. Caso contrário, apenas o valor da taxa de gás medida é impresso no tópico do broker.
+É definida a variável "value_gas" para receber o valor analógico inteiro do sensor no pino A0, em seguida, aguarda-se 1 segundo. Caso contrário, apenas o valor da taxa de gás medida é impresso no tópico do broker.
 
 Além disso, é configurado um formato padrão para exibir o horário, no formato de Horas:Minutos:Segundos. A função "timeClient.getFormattedTime()" retorna os valores do horário nesse formato.
 
@@ -293,16 +293,6 @@ void loop() {
   String atualData = String(atualAno) + "-" + String(atualMes) + "-" + String(diaMes);
 
   String formattedTime = timeClient.getFormattedTime();
-
-  if(value_gas > tolerancia){ 
-  
-  snprintf (msg, MSG_BUFFER_SIZE, "TAXA DE CO2 MUITO ALTA! - [Horário: %s] - [Data: %s]", formattedTime, atualData);
-  
-  client.publish("lens/CO2", msg);
-
-  delay(2000);
-
-  }
     
   if (now - lastMsg > 2000) {
 

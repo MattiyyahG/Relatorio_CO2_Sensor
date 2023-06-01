@@ -39,8 +39,6 @@ unsigned long lastMsg = 0;
 
 char msg[MSG_BUFFER_SIZE];
 
-int tolerancia = 10;
-
 void setup_wifi() {
 
   delay(500);
@@ -61,7 +59,7 @@ void setup_wifi() {
 
   Serial.print(".");
 
-    }
+  }
 
   randomSeed(micros());
 
@@ -171,14 +169,6 @@ void loop() {
   String atualData = String(atualAno) + "-" + String(atualMes) + "-" + String(diaMes);
 
   String formattedTime = timeClient.getFormattedTime();
-
-  if(distance < tolerancia){         
-  
-  snprintf (msg, MSG_BUFFER_SIZE, "MUITO PROXIMO - [Horário: %s] - [Data: %s]", formattedTime, atualData);
-
-  client.publish("lens/CO2", msg);
-  
-  }
     
   if (now - lastMsg > 2000) {
 
@@ -192,6 +182,7 @@ void loop() {
   
   delay(2000);
 
-    }
+  }
+
 }
  
